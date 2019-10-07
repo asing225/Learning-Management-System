@@ -44,16 +44,17 @@
             <label>
               Username<span class="req">*</span>
             </label>
-            <input type="text"required autocomplete="off"/>
+            <input type="text" name="userName" required autocomplete="off"/>
           </div>
           <div class="field-wrap">
-            <input list="usertype">Select User Type
-            <datalist id="usertype">
+            <input list="usertype" name="userType">Select User Type
+              <datalist id="usertype">
               <option value="Student - Grade1">
               <option value="Student - Grade6"> 
               <option value="Teacher">
-                </input>
             </datalist>
+          </input>
+
         </div>
         </div>
           
@@ -88,9 +89,7 @@
             </label>
             <input type="password"required autocomplete="off"/>
           </div>
-          
-          <p class="forgot"><a href="student1.html">Demo Project</a></p>
-          
+                    
           <button class="button button-block">Log In</button>
           
           </form>
