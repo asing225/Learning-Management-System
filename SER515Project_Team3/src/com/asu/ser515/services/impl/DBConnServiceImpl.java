@@ -26,7 +26,7 @@ import com.asu.ser515.services.DBConnService;
 
 public class DBConnServiceImpl implements DBConnService {
 	
-	private User __userold = new User();
+	//private User __userold = new User();
 	private static String __jdbcUrl;
 	private static String __jdbcUser;
 	private static String __jdbcPasswd;
@@ -58,6 +58,7 @@ public class DBConnServiceImpl implements DBConnService {
 	// Authenticate User in the database
 	@Override
 	public User authenticateUser(String username, String password) {
+		User user = new User();
 		Connection conn = null;
 		PreparedStatement ps = null;
 		try {
@@ -71,12 +72,11 @@ public class DBConnServiceImpl implements DBConnService {
 			ps.setString(1, username);
 			ps.setString(2, password);
 			ResultSet rs = ps.executeQuery();
-			System.out.println(ps);
 			while (rs.next()) {
-				__userold.setU_ID(rs.getInt(1));
-				__userold.setUserType(rs.getInt(2));
-				__userold.setFirstName(rs.getString(3));
-				__userold.setLastName(rs.getString(4));
+				user.setU_ID(rs.getInt(1));
+				user.setUserType(rs.getInt(2));
+				user.setFirstName(rs.getString(3));
+				user.setLastName(rs.getString(4));
 			}
 		} catch (SQLException sqe) {
 			sqe.printStackTrace();
@@ -97,12 +97,11 @@ public class DBConnServiceImpl implements DBConnService {
 				}
 			}
 		}
-		return __userold;
+		return user;
 	}
 
 	@Override
 	public int quizCreation(int U_ID, String quizname, String instructions) {	
-		// TODO Auto-generated method stub
 		Connection conn = null;
 		PreparedStatement ps = null;
 		try {
@@ -151,7 +150,6 @@ public class DBConnServiceImpl implements DBConnService {
 
 	@Override
 	public int questionaireCreation(int U_ID, QuestionAnswer questionaire) {
-		// TODO Auto-generated method stub
 		Connection conn = null;
 		PreparedStatement ps = null;
 		try {
