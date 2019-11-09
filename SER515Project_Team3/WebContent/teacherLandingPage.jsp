@@ -49,9 +49,13 @@
 					for (int i = 0; i < quizNames.size(); i++) {
 				%>
 				<tr>
-					<td><%=quizNames.get(i)%> <a id="quizURLRow<%=i%>"
-						href="quiz/?id=<%=quizIds.get(i)%>">Click here to start the
-							quiz</a></td>
+					<td><a id="quizURLRow<%=i%>"
+						href="#"><%=quizNames.get(i)%> </a></td>
+						<!--"quiz/?id=<%=quizIds.get(i)%>">Click here to start the
+							quiz
+							-->
+							
+							
 				</tr>
 
 				<%
