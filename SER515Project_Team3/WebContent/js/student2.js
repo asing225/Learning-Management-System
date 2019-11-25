@@ -51,7 +51,6 @@
  }
  console.log(selections[count-1])
  if (isNaN(selections[count-1])) {
- 	console.log("chicken")
        
      } 
 
@@ -61,8 +60,6 @@
  	choose();
  console.log(size)
  // If no user selection, progress is stopped
- console.log("lolololol")
- console.log(selections[count-1])
      if (selections[count-1] != solution[count-1]) {
        alert('Wrong Answer!');
      } 
@@ -119,9 +116,6 @@
  		var val = "solution"
  		var valu = val.concat(count-1);
  	    selections[count-1] = document.getElementById(valu).value;
- 		console.log("goodyear")
- 		console.log(count)
- 		console.log(selections[0])
  	  }
 
  function prevQuestion() {

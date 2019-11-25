@@ -46,7 +46,6 @@ public class DBConnServiceImpl implements DBConnService {
 	private static String __selectQuestionTable;
 	private static String __getQuizID;
 	private static String __getQuiz;
-	private static String __getQuestions;
 	private static String __getUserList;
 	private static String __updateUser;
 
@@ -67,7 +66,6 @@ public class DBConnServiceImpl implements DBConnService {
 			__selectQuestionTable = dbProperties.getProperty("selectQuestion");
 			__getQuizID = dbProperties.getProperty("getQuizID");
 			__getQuiz = dbProperties.getProperty("getQuiz");
-			__getQuestions = dbProperties.getProperty("getQuestions");
 			__getUserList = dbProperties.getProperty("getUserList");
 			__updateUser = dbProperties.getProperty("updateUser");
 
@@ -123,7 +121,7 @@ public class DBConnServiceImpl implements DBConnService {
 	}
 
 	@Override
-	public int quizCreation(int U_ID, String quizname, String instructions) {
+	public int quizCreation(int U_ID, String quizname, String instructions, int grade) {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		PreparedStatement ps1 = null;
@@ -139,6 +137,7 @@ public class DBConnServiceImpl implements DBConnService {
 			ps.setInt(1, U_ID);
 			ps.setString(2, quizname);
 			ps.setString(3, instructions);
+			ps.setInt(4, grade);
 			int rs = ps.executeUpdate();
 			if (rs == 1) {
 				ps1 = conn.prepareStatement(__getQuizID);
@@ -369,57 +368,6 @@ public class DBConnServiceImpl implements DBConnService {
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.asu.ser515.services.DBConnService#getQuestion(java.lang.String)
-	 */
-	@Override
-	public Quiz getQuestion(int quiz_id) {
-		// TODO Auto-generated method stub
-		ArrayList<Question> listquestion = new ArrayList<Question>();
-		Quiz quiz = new Quiz();
-		Connection conn = null;
-		PreparedStatement ps = null;
-		try {
-			try {
-				Class.forName(__jdbcDriver);
-			} catch (Throwable t) {
-				t.printStackTrace();
-			}
-			conn = DriverManager.getConnection(__jdbcUrl, __jdbcUser, __jdbcPasswd);
-			ps = conn.prepareStatement(__getQuestions);
-			ps.setInt(1, quiz_id);
-			ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
-				Question question = new Question();
-				question.setQuestion(rs.getString("question"));
-				question.setAnswer(rs.getString("solution"));
-				listquestion.add(question);
-			}
-			quiz.setQuestions(listquestion);
-		} catch (SQLException sqe) {
-			sqe.printStackTrace();
-		} finally {
-			try {
-				if (ps != null) {
-					ps.close();
-				}
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			} finally {
-				try {
-					if (conn != null) {
-						conn.close();
-					}
-				} catch (Exception e3) {
-					e3.printStackTrace();
-				}
-			}
-		}
-
-		return quiz;
-	}
 
 	public List<String>[] getUserList() {
 		Connection conn = null;

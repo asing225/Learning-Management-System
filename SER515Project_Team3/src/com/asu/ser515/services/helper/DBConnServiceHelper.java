@@ -18,9 +18,9 @@ public class DBConnServiceHelper {
 			return 1;
 		} else if (usertype.equalsIgnoreCase("teacher")) {
 			return 2;
-		} else if (usertype.equalsIgnoreCase("studentGrade_1")) {
+		} else if (usertype.equalsIgnoreCase("Grade 1")) {
 			return 3;
-		} else if (usertype.equalsIgnoreCase("studentGrade_6")) {
+		} else if (usertype.equalsIgnoreCase("Grade 6")) {
 			return 4;
 		}
 		return 0;

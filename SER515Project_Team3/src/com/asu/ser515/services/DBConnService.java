@@ -22,12 +22,11 @@ import com.asu.ser515.model.User;
 
 public interface DBConnService {
 	public User authenticateUser(String username, String password);
-	public int quizCreation(int U_ID, String quizname, String instructions);
+	public int quizCreation(int U_ID, String quizname, String instructions, int grade);
 	public int questionaireCreation(int U_ID, Quiz quiz);
 	public List<String>[] teacherQuizJsonExtraction();
 	public List<String>[] quizQuestionJsonExtraction(int quizId);
 	public ArrayList<Quiz> getQuiz(int usertype);
-	public Quiz getQuestion(int quiz_id);
 	public List<String>[] getUserList();
 	public int updateUserStatus(String userId);
 }
