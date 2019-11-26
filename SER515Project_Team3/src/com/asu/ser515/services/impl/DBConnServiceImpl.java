@@ -49,6 +49,7 @@ public class DBConnServiceImpl implements DBConnService {
 	private static String __getQuestions;
 	private static String __getUserList;
 	private static String __updateUser;
+	private static String __updatePass;
 
 	// static block to be executed when class loads to read DB configs from
 	// properties file.
@@ -70,6 +71,7 @@ public class DBConnServiceImpl implements DBConnService {
 			__getQuestions = dbProperties.getProperty("getQuestions");
 			__getUserList = dbProperties.getProperty("getUserList");
 			__updateUser = dbProperties.getProperty("updateUser");
+			__updatePass = dbProperties.getProperty("updatePass");
 
 		} catch (Throwable t) {
 			t.printStackTrace();
@@ -494,6 +496,48 @@ public class DBConnServiceImpl implements DBConnService {
 			conn = DriverManager.getConnection(__jdbcUrl, __jdbcUser, __jdbcPasswd);
 			ps = conn.prepareStatement(__updateUser);
 			ps.setString(1, userId);
+			int rs = ps.executeUpdate();
+		    if (rs == 1) {
+		    	return 1;
+		    }
+		    else {
+		    	return 0;
+		    }
+		} catch (SQLException sqe) {
+			sqe.printStackTrace();
+			return -1;
+		} finally {
+			try {
+				if (ps != null) {
+					ps.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (Exception e3) {
+					e3.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	public int updateUserPassword(String userId,String password) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		try {
+			try {
+				Class.forName(__jdbcDriver);
+			} catch (Throwable t) {
+				t.printStackTrace();
+			}
+			conn = DriverManager.getConnection(__jdbcUrl, __jdbcUser, __jdbcPasswd);
+			ps = conn.prepareStatement(__updatePass);
+			ps.setString(1, password);
+			ps.setString(2, userId);
 			int rs = ps.executeUpdate();
 		    if (rs == 1) {
 		    	return 1;
