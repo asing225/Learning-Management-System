@@ -101,6 +101,7 @@ public class DBConnServiceImpl implements DBConnService {
 				user.setUserType(rs.getInt(2));
 				user.setFirstName(rs.getString(3));
 				user.setLastName(rs.getString(4));
+				user.setFirstTimeUser(rs.getString(5));
 			}
 		} catch (SQLException sqe) {
 			sqe.printStackTrace();

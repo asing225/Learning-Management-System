@@ -2,7 +2,6 @@ package com.asu.ser515.controller;
 
 import java.io.IOException;
 import java.util.List;
-
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -42,9 +41,23 @@ public class LoginServlet extends HttpServlet {
 		String userName = req.getParameter("username");
 		String action = req.getParameter("action");
 		String userPage = "";
+		DBConnService serviceImpl = new DBConnServiceImpl();
 		if ("Login".equalsIgnoreCase(action)) {
-			DBConnService serviceImpl = new DBConnServiceImpl();
 			User user = serviceImpl.authenticateUser(userName, password);
+			user.setUserName(userName);
+			session.setAttribute("u_id", user.getUser_Id());
+			session.setAttribute("username", userName);
+			if("N".equals(user.getFirstTimeUser())) {
+				userPage = "/changePassword.jsp";
+				try {
+					getServletContext().getRequestDispatcher(userPage).forward(req, res);
+					return;
+				} catch (IOException ioExc) {
+					ioExc.printStackTrace();
+				} catch (ServletException servletExc) {
+					servletExc.printStackTrace();
+				}
+			}
 			LoginServletHelper loginServletHelper = new LoginServletHelper();
 			userPage = loginServletHelper.mapUserToPage(user.getUserType());
 			List<String>[] data = serviceImpl.teacherQuizJsonExtraction();
@@ -53,8 +66,6 @@ public class LoginServlet extends HttpServlet {
 			session.setAttribute("firstname", user.getFirstName());
 			session.setAttribute("lastname", user.getLastName());
 			session.setAttribute("usertype", user.getUserType());
-			session.setAttribute("u_id", user.getUser_Id());
-			session.setAttribute("username", user.getUserName());
 			if (user.getUserType() == 3 || user.getUserType() == 4) {
 				session.setAttribute("ListQuiz", serviceImpl.getQuiz(user.getUserType()));
 			}
@@ -78,6 +89,11 @@ public class LoginServlet extends HttpServlet {
 		}
 		else if("Logout".equalsIgnoreCase(action)) {
 			session.invalidate();
+			userPage = "/index.html";
+		}
+		else if("Update Password".equals(action)) {
+			String user_id = (String) session.getAttribute("username");
+			serviceImpl.updateUserPassword(user_id, password);
 			userPage = "/index.html";
 		}
 		try {
