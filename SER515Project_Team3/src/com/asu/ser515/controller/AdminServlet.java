@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.asu.ser515.services.DBConnService;
-import com.asu.ser515.services.helper.AdminHelper;
 import com.asu.ser515.services.impl.DBConnServiceImpl;
 /**
  * @author anurag933103
@@ -27,8 +26,6 @@ public class AdminServlet extends HttpServlet {
 	
 	public void doPost(HttpServletRequest req, HttpServletResponse res) {
 		String user_id = req.getParameter("status");
-		AdminHelper helper = new AdminHelper();
-		helper.sendEmail();
 		DBConnService dbConn = new DBConnServiceImpl();
 		int dbRes = dbConn.updateUserStatus(user_id);
 		HttpSession session = req.getSession(false);
