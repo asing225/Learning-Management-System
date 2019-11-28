@@ -6,9 +6,9 @@ import org.junit.jupiter.api.Test;
 import com.asu.ser515.services.helper.DBConnServiceHelper;
 /**
  * @author anurag933103
- * @date 10/27/2019
+ * @date 11/27/2019
  * 
- * JUnit test class to test AdminServletHelper class.
+ * JUnit test class to test DBConnServletHelper class.
  * */
 class TestDBConnServiceHelper {
 	private DBConnServiceHelper dbHelper = new DBConnServiceHelper();
