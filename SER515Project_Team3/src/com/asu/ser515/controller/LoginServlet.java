@@ -92,7 +92,7 @@ public class LoginServlet extends HttpServlet {
 			userPage = "/index.html";
 		}
 		else if("Update Password".equals(action)) {
-			String user_id = (String) session.getAttribute("username");
+			String user_id = String.valueOf(session.getAttribute("u_id"));
 			serviceImpl.updateUserPassword(user_id, password);
 			userPage = "/index.html";
 		}
