@@ -24,6 +24,7 @@ public class AdminServlet extends HttpServlet {
 		super.init(config);
 	}
 	
+	@SuppressWarnings({ "unchecked", "unused" })
 	public void doPost(HttpServletRequest req, HttpServletResponse res) {
 		String user_id = req.getParameter("status");
 		DBConnService dbConn = new DBConnServiceImpl();

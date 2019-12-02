@@ -16,6 +16,7 @@ import com.asu.ser515.model.Quiz;
 import com.asu.ser515.model.Teacher;
 import com.asu.ser515.model.User;
 import com.asu.ser515.services.DBConnService;
+import com.asu.ser515.services.helper.DBConnServiceHelper;
 import com.asu.ser515.services.helper.TeacherServletHelper;
 import com.asu.ser515.services.impl.DBConnServiceImpl;
 
@@ -49,6 +50,8 @@ public class TeacherServlet extends HttpServlet {
 		List<Question> listofquestions= new ArrayList<Question>();
 		String quizname = req.getParameter("quizname");
 		String instructions = req.getParameter("instructions");
+		DBConnServiceHelper dbHelper = new DBConnServiceHelper();
+		int grade = dbHelper.mapUserTypeToDB(req.getParameter("grade"));
 		HttpSession session = req.getSession(false);
 		User teacher = new Teacher();
 		teacher.setFirstName((String) session.getAttribute("firstname"));
@@ -57,7 +60,7 @@ public class TeacherServlet extends HttpServlet {
 		teacher.setUser_Id((int) session.getAttribute("u_id"));
 		teacher.setUserType((int) session.getAttribute("usertype"));
 		DBConnService serviceImpl = new DBConnServiceImpl();
-		int quizCreated = serviceImpl.quizCreation(teacher.getUser_Id(), quizname, instructions);
+		int quizCreated = serviceImpl.quizCreation(teacher.getUser_Id(), quizname, instructions, grade);
 		List<String> quizNames = (List<String>) session.getAttribute("quizNames");
 		List<String> quizIDs = (List<String>) session.getAttribute("quizIds");
 		quizIDs.add(Integer.toString(quizCreated));

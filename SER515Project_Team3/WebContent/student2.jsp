@@ -13,8 +13,10 @@
 <body>
 	<div id="header"></div>
 	<%
-		Quiz quiz = (Quiz) request.getSession().getAttribute("quiz");
-		List<Question> listquestions = quiz.getQuestions();
+	List<String> questions = (ArrayList<String>) request.getSession().getAttribute("Questions");
+	List<String> answers = (ArrayList<String>) request.getSession().getAttribute("Answers");	
+		//Quiz quiz = (Quiz) request.getSession().getAttribute("quiz");
+		//List<Question> listquestions = quiz.getQuestions();
 	%>
 	<div>
 		<h3>Student Grade 6</h3>
@@ -23,10 +25,10 @@
         	<div id = "container">
 				<form method="GET">
 				<table id="quizTable" class="table table-bordered">
-				<a id="size"><% listquestions.size(); %></a>
+				<a id="size"><% questions.size(); %></a>
 					<%
 						session.setAttribute("action", "load");
-					if (listquestions.size() == 0) {
+					if (questions.size() == 0) {
 					%>
 					<p align="center">
 					<h3>No questions found!!</h3>
@@ -36,14 +38,14 @@
 					%>
 					<div id = "questions">
 					<%
-					for (int i = 0; i < listquestions.size(); i++) {
+					for (int i = 0; i < questions.size(); i++) {
 					%>
 					
-						<div id =  "problem<%=i%>" ><div id="quizURLRow<%=i%>"><%= listquestions.get(i).getQuestion()%>
+						<div id =  "problem<%=i%>" ><div id="quizURLRow<%=i%>"><%= questions.get(i)%>
 						</div>
 						
 						
-						<div id = "answer<%=i %>" value = "<%= listquestions.get(i).getAnswer()%>">
+						<div id = "answer<%=i %>" value = "<%= answers.get(i)%>">
 						<label for="solution<%=i %>">Answer Below:</label>
   						<input type="text" class="form-control" id="solution<%=i %>">
 						</div>

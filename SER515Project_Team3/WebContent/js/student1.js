@@ -49,7 +49,6 @@ for(i=0;i<size;i++){
 	var answer = ans.concat(i);
 	solution[i] = document.getElementById(answer).getAttribute('value');
 }
-console.log(selections[count-1])
 if (isNaN(selections[count-1])) {
       
     } 
@@ -58,9 +57,7 @@ console.log(selections[0])
 function nextQuestion() {
 var val = "problem"
 	choose();
-console.log(size)
 // If no user selection, progress is stopped
-console.log(selections[count-1])
     if (selections[count-1] != solution[count-1]) {
       alert('Wrong Answer!');
     } 
@@ -118,9 +115,6 @@ function choose() {
 		var val = "solution"
 		var valu = val.concat(count-1);
 	    selections[count-1] = document.getElementById(valu).value;
-		console.log("goodyear")
-		console.log(count)
-		console.log(selections[0])
 	  }
 
 function prevQuestion() {

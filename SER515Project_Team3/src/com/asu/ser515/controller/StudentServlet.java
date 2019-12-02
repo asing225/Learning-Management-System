@@ -11,10 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.asu.ser515.model.Grade1Student;
+import com.asu.ser515.model.Question;
 import com.asu.ser515.model.Quiz;
 import com.asu.ser515.model.User;
-import com.asu.ser515.services.DBConnService;
-import com.asu.ser515.services.helper.LoginServletHelper;
 import com.asu.ser515.services.helper.StudentServletHelper;
 import com.asu.ser515.services.impl.DBConnServiceImpl;
 
@@ -40,11 +39,15 @@ public class StudentServlet extends HttpServlet {
 		student.setUser_Id((int) session.getAttribute("u_id"));
 		student.setUserType((int) session.getAttribute("usertype"));
 		DBConnServiceImpl serviceImpl = new DBConnServiceImpl();
-		Quiz quiz= serviceImpl.getQuestion(quiz_id);
+		List<String>[] questionEntry = serviceImpl.quizQuestionJsonExtraction(quiz_id);
+		List<String> question = questionEntry[0];
+		List<String> solution = questionEntry[1];
+		Question questionSet = new Question();
+		questionSet.setQuestion(question.get(0));
+		session.setAttribute("Questions", question);
+		session.setAttribute("Answers", solution);
 		StudentServletHelper studentServletHelper = new StudentServletHelper();
-		String userPage = studentServletHelper.mapUserToPage(student.getUserType());
-		session.setAttribute("quiz", quiz);
-		
+		String userPage = studentServletHelper.mapUserToPage(student.getUserType());		
 		try {
 			getServletContext().getRequestDispatcher(userPage).forward(req,res);
 		} catch (ServletException | IOException e) {

@@ -13,3 +13,14 @@ background-color: rgb(245, 180, 150);
 .list-group {
     text-align: justify;
 }
+
+a {
+	color: rgb(88, 36, 6);
+	text-align: center;
+	padding: 12px;
+	text-decoration: none;
+	font-size: 18px;
+	line-height: 25px;
+    border-radius: 4px;
+    pointer-events: visible;
+}
