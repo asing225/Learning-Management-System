@@ -29,4 +29,5 @@ public interface DBConnService {
 	public ArrayList<Quiz> getQuiz(int usertype);
 	public List<String>[] getUserList();
 	public int updateUserStatus(String userId);
+	public int updateUserPassword(String userId,String password);
 }
