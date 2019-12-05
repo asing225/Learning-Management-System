@@ -8,24 +8,36 @@
 <script type="text/javascript" src='./lib/foundation.min.js'></script>
 <script type="text/javascript" src="./js/quiz.js"></script>
 <link rel="stylesheet" href="./css/bootstrap.min.css">
-<link rel="stylesheet" href="./css/style1.css">
+
 </head>
 <body>
 	<div id="header"></div>
 	<div id="wrapper">
 		<div id="userFormm">
-			<form action="quiz" id="userFields" method="post" name="userFields">
-				<div class="col-md-6">
+			<form action="teacher" id="userFields" method="post"
+				name="userFields">
+				<div class="col-sm-4">
 					<div id="heading">
 						<h3>Quiz Name</h3>
-					</div class="col-md-6">
-					<input type="text" placeholder="Enter quiz name" name="quizname">
+
+						<input type="text" placeholder="Enter quiz name" name="quizname">
+					</div>
 				</div>
-				<div class="col-md-6">
+				<div class="col-sm-4">
 					<div id="heading">
 						<h3>Quiz Instructions</h3>
 					</div>
 					<input type="text" placeholder="Instructions" name="instructions">
+				</div>
+				<div class="col-sm-4">
+					<div id="heading">
+						<h3>Grade</h3>
+					</div>
+					<input list="grade" name="grade">
+					<datalist id="grade">
+						<option value="Grade 1">
+						<option value="Grade 6">
+					</datalist>
 				</div>
 				<div class="row"></div>
 				<div id="wrapper1">
@@ -33,24 +45,30 @@
 						<h3>Question 1</h3>
 					</div>
 					<input type="text" placeholder="Question1" name="Question1">
-					</br>
-					<textarea placeholder="Solution1" name="Solution1" type="text"></textarea>
+					<br>
+					<textarea class="solution" placeholder="Solution1" name="Solution1"
+						type="text"></textarea>
+
 					<hr>
 				</div>
-				<div>
-					<input class="btn btn-primary" type="submit" value="submit"
-						width="50%">
-					<div>
-
-						<input class="btn btn-primary" type="button" value="Add"
-							width="50%" id="btAdd"> <input class="btn btn-primary"
-							type="button" value="Remove" width="50%" id="btRemove">
-					</div>
-				</div>
-				<!-- Dynamic Registration Form Fields Creates Here -->
-			</form>
 		</div>
 	</div>
+	</div>
+	<div>
+		<input class="btn btn-primary" type="submit" value="submit"
+			id="submit" width="50%">
+		<div>
+
+			<input class="btn btn-primary" type="button" value="Add" width="50%"
+				id="btAdd"> <input class="btn btn-primary" type="button"
+				value="Remove" width="50%" id="btRemove">
+		</div>
+	</div>
+	<!-- Dynamic Registration Form Fields Creates Here -->
+	</form>
+	</div>
+	</div>
+	<link rel="stylesheet" href="./css/style1.css">
 </body>
 
 </html>

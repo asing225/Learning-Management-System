@@ -1,14 +1,15 @@
 package com.asu.ser515.controller;
 
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import com.asu.ser515.model.User;
+import com.asu.ser515.services.DBConnService;
 import com.asu.ser515.services.helper.LoginServletHelper;
 import com.asu.ser515.services.impl.DBConnServiceImpl;
 
@@ -22,11 +23,12 @@ import com.asu.ser515.services.impl.DBConnServiceImpl;
  * @author kushagrjolly
  * @date 09/29/2019
  * 
+ * @author anurag933103
+ * @date 11/07/2019
  */
 
 @SuppressWarnings("serial")
 public class LoginServlet extends HttpServlet {
-
 
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
@@ -34,21 +36,68 @@ public class LoginServlet extends HttpServlet {
 
 	// doPost method to handle form submit coming from web page
 	public void doPost(HttpServletRequest req, HttpServletResponse res) {
+		HttpSession session = req.getSession(true);
 		String password = req.getParameter("password");
 		String userName = req.getParameter("username");
-		DBConnServiceImpl serviceImpl = new DBConnServiceImpl();
-		User user = serviceImpl.authenticateUser(userName, password);
-		LoginServletHelper loginServletHelper = new LoginServletHelper();
-		String userPage = loginServletHelper.mapUserToPage(user.getUserType());
-		try {
-			HttpSession session = req.getSession(true);
+		String action = req.getParameter("action");
+		String userPage = "";
+		DBConnService serviceImpl = new DBConnServiceImpl();
+		if ("Login".equalsIgnoreCase(action)) {
+			User user = serviceImpl.authenticateUser(userName, password);
+			user.setUserName(userName);
+			session.setAttribute("u_id", user.getUser_Id());
+			session.setAttribute("username", userName);
+			if("N".equals(user.getFirstTimeUser())) {
+				userPage = "/changePassword.jsp";
+				try {
+					getServletContext().getRequestDispatcher(userPage).forward(req, res);
+					return;
+				} catch (IOException ioExc) {
+					ioExc.printStackTrace();
+				} catch (ServletException servletExc) {
+					servletExc.printStackTrace();
+				}
+			}
+			LoginServletHelper loginServletHelper = new LoginServletHelper();
+			userPage = loginServletHelper.mapUserToPage(user.getUserType());
+			List<String>[] data = serviceImpl.teacherQuizJsonExtraction();
+			session.setAttribute("quizNames", data[0]);
+			session.setAttribute("quizIds", data[1]);
 			session.setAttribute("firstname", user.getFirstName());
 			session.setAttribute("lastname", user.getLastName());
 			session.setAttribute("usertype", user.getUserType());
-			session.setAttribute("u_id", user.getUser_Id());
-			session.setAttribute("username", user.getUserName());
-//			req.getRequestDispatcher(userPage).forward(req, res);
-			getServletContext().getRequestDispatcher(userPage).forward(req,res);
+			if (user.getUserType() == 3 || user.getUserType() == 4) {
+				session.setAttribute("ListQuiz", serviceImpl.getQuiz(user.getUserType()));
+			}
+			else if(user.getUserType()==1) {
+				List<String>[] userEntry =serviceImpl.getUserList();
+				List<String> userId = userEntry[0];
+				List<String> firstName = userEntry[1];
+				List<String> lastName = userEntry[2];
+				List<String> userType = userEntry[3];
+				List<String> UserNameList = userEntry[4];
+				List<String> passwordList = userEntry[5];
+				List<String> active_flg = userEntry[6];
+				session.setAttribute("userId", userId);
+				session.setAttribute("firstNameList", firstName);
+				session.setAttribute("lastNameList", lastName);
+				session.setAttribute("userTypeList", userType);
+				session.setAttribute("userNameList", UserNameList);
+				session.setAttribute("passwordList", passwordList);
+				session.setAttribute("status", active_flg);
+			}
+		}
+		else if("Logout".equalsIgnoreCase(action)) {
+			session.invalidate();
+			userPage = "/index.html";
+		}
+		else if("Update Password".equals(action)) {
+			String user_id = String.valueOf(session.getAttribute("u_id"));
+			serviceImpl.updateUserPassword(user_id, password);
+			userPage = "/index.html";
+		}
+		try {
+			getServletContext().getRequestDispatcher(userPage).forward(req, res);
 		} catch (IOException ioExc) {
 			ioExc.printStackTrace();
 		} catch (ServletException servletExc) {
@@ -56,4 +105,3 @@ public class LoginServlet extends HttpServlet {
 		}
 	}
 }
-	

@@ -4,58 +4,38 @@
 <html>
 <head>
 <title>Teacher Home</title>
-<script type="text/javascript" src="./js/jquery-2.1.3.min.js"></script>
-<script type="text/javascript" src="./js/header.js"></script>
+<link rel="stylesheet" href="./css/bootstrap.min.css">
 </head>
 <body>
 	<div id="header"></div>
-	<h1>Welcome Teacher</h1>
+	<h1>
+		Welcome
+		<%=(String) session.getAttribute("firstname")%></h1>
 	<div>
-		<a class="btn" href="teacher.html">Create Quiz</a>
+		<a class="btn btn-primary" href="teacher.html">Create Quiz</a>
 	</div>
 	<%
-		//List<String> quizNames = (ArrayList<String>) request.getSession().getAttribute("quizNames");
-		//List<Integer> quizIds = (ArrayList<Integer>) request.getSession().getAttribute("quizIds");
-		List<String> quizNames = new ArrayList();
-		List<Integer> quizIds = new ArrayList();
-		quizNames.add("Quiz 1");
-		quizNames.add("Quiz 2");
-		quizNames.add("Quiz 3");
-		quizIds.add(1);
-		quizIds.add(2);
-		quizIds.add(3);
+		List<String> quizNames = (ArrayList<String>) request.getSession().getAttribute("quizNames");
+		List<Integer> quizIds = (ArrayList<Integer>) request.getSession().getAttribute("quizIds");
 	%>
 	<div class="container">
-		<h2>Quiz</h2>
 		<form method="GET">
-			<table id="quizTable" class="table table-bordered">
+			<table class="table table-bordered" id="quizTable">
 				<%
-					session.setAttribute("action", "load");
-					if (quizNames.size() == 0) {
+					int size = quizNames.size();
+					if (size == 0) {
 				%>
-				<p align="center">
-				<h3>No quizzes found!!</h3>
-				</p>
+				<p align="center">No quizzes found!!</p>
 				<%
 					} else {
 				%>
 
-				<p align="center">
-				<h3>
-					You have following quizzes for the course!! <br>
-				</h3>
-				</p>
+				<p align="center">You have following quizzes for the course!!</p>
 				<%
-					for (int i = 0; i < quizNames.size(); i++) {
+					for (int i = 0; i < size; i++) {
 				%>
 				<tr>
-					<td><a id="quizURLRow<%=i%>"
-						href="#"><%=quizNames.get(i)%> </a></td>
-						<!--"quiz/?id=<%=quizIds.get(i)%>">Click here to start the
-							quiz
-							-->
-							
-							
+					<td><a href="teacher?id=<%=quizIds.get(i)%>"><%=quizNames.get(i)%></a></td>
 				</tr>
 
 				<%
@@ -64,36 +44,11 @@
 				%>
 			</table>
 		</form>
-		<style>
-a {
-	position: relative;
-	display: inline-block;
-	margin-top: 20px;
-}
-
-a[title]:hover:after {
-	content: attr(title);
-	color: #ff0509;
-	position: absolute;
-	top: -100%;
-	left: 0;
-}
-</style>
 	</div>
 </body>
+<script type="text/javascript" src="./js/jquery-2.1.3.min.js"></script>
+<script type="text/javascript" src="./js/bootstrap.min.js"></script>
+<script type="text/javascript" src="./js/header.js"></script>
+<link rel="stylesheet" href="./css/studentLandingPage.css">
 </html>
-<script type="text/javascript">
-	// checking if the quiz has been answered or not.
-	$(document)
-			.ready(
-					function() {
-						var rowCount = $('#quizTable tr').length;
-						for (var i = 0; i < rowCount; i++) {
-							if (document.getElementById("quizStatus" + i).innerHTML == "Answered") {
-								document.getElementById("quizURLRow" + i).href = "javascript: void(0)";
-								document.getElementById("quizURLRow" + i).title = "Quiz already answered";
-							}
-						}
-					});
-</script>
 
