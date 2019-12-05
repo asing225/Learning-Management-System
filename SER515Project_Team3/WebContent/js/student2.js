@@ -107,7 +107,7 @@
 			      async : false,
 			      type: 'POST',
 			      success: function(data){
-			    	  document.location.href = "/SER515/studentLandingPage.jsp"
+			    	  document.location.href = "/SER515Project_Team3/studentLandingPage.jsp"
 			      },
 			});
  		}
